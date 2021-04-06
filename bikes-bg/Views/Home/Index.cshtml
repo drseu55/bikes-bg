@@ -1,10 +1,15 @@
-﻿
+﻿@using bikes_bg.Models;
 
-.<html xmlns="http://www.w3.org/1999/xhtml">
+@model IEnumerable<BikeBrand>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title></title>
+    <title>Test</title>
 </head>
 <body>
-    <h1>Test</h1>
+    @foreach (var brand in Model)
+    {
+       <h1> @brand.Name</h1>
+    }
 </body>
 </html>

@@ -19,8 +19,8 @@ namespace bikes_bg.Controllers
         }
         public IActionResult Index()
         {
-            BikeBrand bike = bikeRepo.GetAll().First();
-            return Content(bike.Name);
+            var model = bikeRepo.GetAll();
+            return View(model);
         }
     }
 }
