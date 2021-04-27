@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<User> signInManager;
 
 <html>
 <head>
@@ -43,6 +44,27 @@
                         <a asp-controller="home" asp-action="create" class="nav-link">Create</a>
                     </li>
                 </ul>
+                <ul class="navbar-nav ml-auto">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <form method="post" asp-controller="account" asp-action="logout">
+                                <button type="submit" class="nav-link btn btn-link py-0">
+                                    Logout @User.Identity.Name
+                                </button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="account" asp-action="register" class="nav-link">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="account" asp-action="login" class="nav-link">Login</a>
+                        </li>
+                    }
+                </ul>
             </div>
         </nav>
 
@@ -50,5 +72,6 @@
             @RenderBody()
         </div>
         @RenderSection("Scripts", required: false)
+    </div>
 </body>
 </html>

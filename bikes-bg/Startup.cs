@@ -1,7 +1,11 @@
+using bikes_bg.Models;
 using bikes_bg.Repository.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +30,18 @@ namespace bikes_bg
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("DBConnection")));
-            services.AddMvc(options => options.EnableEndpointRouting = false)
-                .AddXmlSerializerFormatters();
+
+            services.AddIdentity<User, IdentityRole>()
+    .       
+            AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddMvc(config => {
+                var policy = new AuthorizationPolicyBuilder()
+                                .RequireAuthenticatedUser()
+                                .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+                config.EnableEndpointRouting = false;
+            });
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
@@ -41,6 +55,7 @@ namespace bikes_bg
             }
 
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
         }
     }

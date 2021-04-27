@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using bikes_bg.Models;
 using bikes_bg.Repository.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bikes_bg.Controllers
 {
     
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IGenericRepository<BikeBrand> bikeRepo;
