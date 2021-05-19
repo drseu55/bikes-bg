@@ -11,12 +11,13 @@ namespace bikes_bg.Repository.Base
     {
         private AppDbContext context = null;
         private DbSet<T> table = null;
-
+        
 
         public GenericRepository(AppDbContext context)
         {
             this.context = context;
-            this.table = this.context.Set<T>();
+            
+            table = this.context.Set<T>();
         }
 
         public void Delete(object id)
@@ -50,6 +51,11 @@ namespace bikes_bg.Repository.Base
             table.Attach(obj);
             context.Entry(obj).State = EntityState.Modified;
             context.SaveChanges();
+        }
+
+        DbSet<T> IGenericRepository<T>.GetTable()
+        {
+            return table;
         }
     }
 }

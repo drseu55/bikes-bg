@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using bikes_bg.Models;
@@ -13,5 +14,6 @@ namespace bikes_bg.Repository.Base
         void Insert(T obj);
         void Update(T obj);
         void Delete(object id);
+        DbSet<T> GetTable();
     }
 }

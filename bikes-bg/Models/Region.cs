@@ -7,9 +7,9 @@ using bikes_bg.Models.Base;
 
 namespace bikes_bg.Models
 {
-    [Table("BIKE_BRANDS")]
-    public class BikeBrand : BaseEntity
+    [Table("REGIONS")]
+    public class Region : BaseEntity
     {
-        public virtual List<BikeModel> bikeModels  { get; set; }
+        public virtual List<City> cities { get; set; }
     }
 }
