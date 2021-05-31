@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using bikes_bg.Models;
 using bikes_bg.Repository.Base;
 using bikes_bg.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using System.Data.Entity;
 
 namespace bikes_bg.Controllers
 {
@@ -22,6 +21,7 @@ namespace bikes_bg.Controllers
         private IGenericRepository<BikeColor> bikeColorRepo;
         private IGenericRepository<Region> regionRepo;
         private IGenericRepository<City> cityRepo;
+        private IGenericRepository<Advertisement> advertisementRepo;
 
         public AdvertisementController(IGenericRepository<BikeModel> bikeModelRepo
             , IGenericRepository<BikeBrand> bikeBrandRepo
@@ -29,7 +29,8 @@ namespace bikes_bg.Controllers
             , IGenericRepository<BikeEngineType> bikeEngineTypeRepo
             , IGenericRepository<BikeColor> bikeColorRepo
             , IGenericRepository<Region> regionRepo
-            , IGenericRepository<City> cityRepo)
+            , IGenericRepository<City> cityRepo
+            , IGenericRepository<Advertisement> advertisementRepo)
         {
             this.bikeModelRepo = bikeModelRepo;
             this.bikeBrandRepo = bikeBrandRepo;
@@ -38,6 +39,7 @@ namespace bikes_bg.Controllers
             this.bikeColorRepo = bikeColorRepo;
             this.regionRepo = regionRepo;
             this.cityRepo = cityRepo;
+            this.advertisementRepo = advertisementRepo;
         }
 
     public ActionResult Index()
@@ -78,13 +80,36 @@ namespace bikes_bg.Controllers
                 cityId = model.selectedCity,
                 colorId = model.selectedBikeColor,
                 categoryId = model.selectedBikeCategory,
-                description = model.description
+                description = model.description,
+                userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                photoPath = "yyyyyyy"
             };
 
-            // Todo attach user and insert ad to database
-            // remove anonymous access
+            advertisementRepo.Insert(advertisement);
 
             return View("CreateAd");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult View(int id)
+        {
+            // This loading can be improved using eager loading
+            var model = advertisementRepo.GetById(id);
+            model.bikeModel = bikeModelRepo.GetById(model.modelId);
+            model.bikeModel.bikeBrand = bikeBrandRepo.GetById(model.bikeModel.brandID);
+            model.bikeCategory = bikeCategoryRepo.GetById(model.categoryId);
+            model.city = cityRepo.GetById(model.cityId);
+            model.bikeColor = bikeColorRepo.GetById(model.colorId);
+
+
+            if (model == null)
+            {
+                Response.StatusCode = 404;
+                return RedirectToAction("index", "home");
+            }
+
+            return View("ViewAd", model);
         }
 
         [HttpPost]

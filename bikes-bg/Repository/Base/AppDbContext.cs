@@ -29,6 +29,28 @@ namespace bikes_bg.Repository.Base
                 .HasOne(c => c.region)
                 .WithMany(r => r.cities)
                 .HasForeignKey(c => c.regionID);
+
+            modelBuilder.Entity<Advertisement>()
+                .HasOne(ad => ad.bikeCategory)
+                .WithMany()
+                .HasForeignKey(ad => ad.categoryId);
+
+            modelBuilder.Entity<Advertisement>()
+                .HasOne(ad => ad.bikeColor)
+                .WithMany()
+                .HasForeignKey(ad => ad.colorId);
+
+            modelBuilder.Entity<Advertisement>()
+                .HasOne(ad => ad.bikeEngineType)
+                .WithMany()
+                .HasForeignKey(ad => ad.engineTypeId);
+
+            modelBuilder.Entity<Advertisement>()
+                .HasOne(ad => ad.bikeModel)
+                .WithMany()
+                .HasForeignKey(ad => ad.modelId);
+
+
     }
 
         public DbSet<BikeModel> bikeModels { get; set; }
@@ -36,6 +58,7 @@ namespace bikes_bg.Repository.Base
         public DbSet<BikeCategory> bikeCategories { get; set; }
         public DbSet<BikeEngineType> bikeEngineTypes { get; set; }
         public DbSet<BikeColor> bikeColors { get; set; }
+        public DbSet<Advertisement> advertisements { get; set; }
     }
 
 }

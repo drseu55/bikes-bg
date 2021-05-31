@@ -14,19 +14,19 @@ namespace bikes_bg.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly IGenericRepository<BikeModel> bikeRepo;
-        public HomeController(IGenericRepository<BikeModel> bikeRepo)
+        private readonly IGenericRepository<Advertisement> advertisementRepo;
+        public HomeController(IGenericRepository<Advertisement> advertisementRepo)
         {
-            this.bikeRepo = bikeRepo;
+            this.advertisementRepo = advertisementRepo;
         }
         public IActionResult Index()
         {
-            List<BikeModel> bikes = bikeRepo.GetTable().Include(b => b.bikeBrand).ToList();
-            
-            var bike = bikes.ElementAt(0);
-            var brand = bike.bikeBrand;
-
-            return View(bikes);
+            List<Advertisement> advertisements = advertisementRepo.GetTable()
+                .Include(ad => ad.bikeModel)
+                .Include(ad => ad.bikeModel.bikeBrand)
+                .ToList();
+           
+            return View(advertisements);
         }
     }
 }
