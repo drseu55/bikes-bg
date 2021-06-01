@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using bikes_bg.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace bikes_bg.ViewModels
 {
@@ -52,5 +53,8 @@ namespace bikes_bg.ViewModels
 
         [DisplayName("Description")]
         public string description { get; set; }
+
+        [DisplayName("Photo")]
+        public IFormFile photo { get; set; }
     }
 }

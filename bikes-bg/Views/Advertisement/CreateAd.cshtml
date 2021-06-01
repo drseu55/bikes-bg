@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 @Html.LabelFor(x => Model.selectedBikeBrand)
@@ -75,15 +75,28 @@
                 <input asp-for="bikePrice" class="form-control" type="number" />
                 <span asp-validation-for="bikePrice" class="text-danger"></span>
             </div>
-            @*TODO add image selecting*@
+            <div class="form-group">
+            <label asp-for="photo" ></label>
+                <div class="custom-file">
+                    <input asp-for="photo" class="form-control custom-file-input">
+                    <label class="custom-file-label">Choose File...</label>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
 </div>
 
 @section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
     <script type="text/javascript">
-
         $(document).ready(function () {
             $("#Brands").change(function () {
                 var selectedBrand = $("#Brands").val();

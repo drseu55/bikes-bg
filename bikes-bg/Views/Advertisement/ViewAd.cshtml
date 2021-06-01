@@ -5,8 +5,7 @@
 }
 
 @{
-    // TODO add image
-    var photoPath = "/Images/noimage.jpg";
+    var photoPath = "~/Images/" + (Model.photoPath ?? "noimage.jpg");
     var bikePower = Model.engineSize + "cc " + Model.horsePower + "hp";
 
     <div class="container emp-ad">
@@ -15,7 +14,7 @@
                 <div class="col-md-4">
                     <div>
                         <div class="ad-img">
-                            <img src="@photoPath" alt="" />
+                            <img src="@photoPath" asp-append-version="true"  />
                         </div>
                     </div>
                     <div>

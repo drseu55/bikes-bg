@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using System.Data.Entity;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System;
 
 namespace bikes_bg.Controllers
 {
@@ -23,6 +25,8 @@ namespace bikes_bg.Controllers
         private IGenericRepository<City> cityRepo;
         private IGenericRepository<Advertisement> advertisementRepo;
 
+        public IHostingEnvironment hostingEnvironment { get; }
+
         public AdvertisementController(IGenericRepository<BikeModel> bikeModelRepo
             , IGenericRepository<BikeBrand> bikeBrandRepo
             , IGenericRepository<BikeCategory> bikeCategoryRepo
@@ -30,7 +34,8 @@ namespace bikes_bg.Controllers
             , IGenericRepository<BikeColor> bikeColorRepo
             , IGenericRepository<Region> regionRepo
             , IGenericRepository<City> cityRepo
-            , IGenericRepository<Advertisement> advertisementRepo)
+            , IGenericRepository<Advertisement> advertisementRepo
+            , IHostingEnvironment hostingEnvironment)
         {
             this.bikeModelRepo = bikeModelRepo;
             this.bikeBrandRepo = bikeBrandRepo;
@@ -40,6 +45,7 @@ namespace bikes_bg.Controllers
             this.regionRepo = regionRepo;
             this.cityRepo = cityRepo;
             this.advertisementRepo = advertisementRepo;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
     public ActionResult Index()
@@ -48,7 +54,6 @@ namespace bikes_bg.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public ActionResult Create()
         {
             CreateAdViewModel model = new CreateAdViewModel();
@@ -62,11 +67,12 @@ namespace bikes_bg.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult Create(CreateAdViewModel model)
         {
             if (!ModelState.IsValid)
                 return View("CreateAd");
+
+            string uniqueFileName = ProcessUploadedFile(model);
 
             Advertisement advertisement = new Advertisement
             {
@@ -82,12 +88,12 @@ namespace bikes_bg.Controllers
                 categoryId = model.selectedBikeCategory,
                 description = model.description,
                 userId = User.FindFirstValue(ClaimTypes.NameIdentifier),
-                photoPath = "yyyyyyy"
+                photoPath = uniqueFileName
             };
 
             advertisementRepo.Insert(advertisement);
 
-            return View("CreateAd");
+            return RedirectToAction("view", new { id = advertisement.id });
         }
 
         [HttpGet]
@@ -140,6 +146,23 @@ namespace bikes_bg.Controllers
             }).ToList();
 
             return Json(selectList);
+        }
+
+        private string ProcessUploadedFile(CreateAdViewModel model)
+        {
+            string uniqueFileName = null;
+            if (model.photo != null)
+            {
+                string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.photo.FileName;
+                string filePath = Path.Combine(uploadFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.photo.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
         }
     }
 }

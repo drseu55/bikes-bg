@@ -7,10 +7,9 @@
 <div class="card-deck">
     @foreach (var advertisement in Model)
     {
-        //var photoPath = "~/Images/" + (advertisement.photoPath ?? "noimage.jpg");
-        var photoPath = "~/Images/noimage.jpg";
+        var photoPath = "~/Images/" + (advertisement.photoPath ?? "noimage7.jpg");
         var price = advertisement.price > 0 ? advertisement.price + "лв." : "По договаряне";
-        <div class="card m-3 fourElementsInRow">
+        <div class="card m-3 threeElementsInRow">
             <div class="card-header">
                 <h3>@advertisement.bikeModel.bikeBrand.name @advertisement.bikeModel.name</h3>
             </div>
