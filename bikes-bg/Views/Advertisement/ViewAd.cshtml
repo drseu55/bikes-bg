@@ -1,0 +1,88 @@
+﻿@model Advertisement;
+
+@{
+    ViewBag.Title = "Create Advertisement";
+}
+
+@{
+    // TODO add image
+    var photoPath = "/Images/noimage.jpg";
+    var bikePower = Model.engineSize + "cc " + Model.horsePower + "hp";
+
+    <div class="container emp-ad">
+        <form method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div>
+                        <div class="ad-img">
+                            <img src="@photoPath" alt="" />
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h5>Description:</h5>
+                        </div>
+                        <div>
+                            <p>@Model.description</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="ad-head">
+                        <h5>
+                            @Model.bikeModel.bikeBrand.name @Model.bikeModel.name
+                        </h5>
+                        <h6>
+                            @bikePower
+                        </h6>
+                        <p class="ad-view-price">Price: <span>@Model.price лв.</span></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Category</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@Model.bikeCategory.name</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Production year</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@Model.productionYear</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Mileage</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@Model.mileage</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>City</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@Model.city.name</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Color</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>@Model.bikeColor.name</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    @*<input type="submit" class="ad-edit-btn" value="Edit Advertisement" />
+                        TODO add edit button*@
+                </div>
+            </div>
+        </form>
+    </div>
+}

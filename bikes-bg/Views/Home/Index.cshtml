@@ -1,13 +1,26 @@
-﻿@model IEnumerable<BikeModel>
+﻿@model IEnumerable<Advertisement>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Test</title>
-</head>
-<body>
-    @foreach (var brand in Model)
+@{
+    ViewBag.Title = "Advertisements";
+}
+
+<div class="card-deck">
+    @foreach (var advertisement in Model)
     {
-        <h1> @brand.name @brand.bikeBrand.name</h1>
+        //var photoPath = "~/Images/" + (advertisement.photoPath ?? "noimage.jpg");
+        var photoPath = "~/Images/noimage.jpg";
+        var price = advertisement.price > 0 ? advertisement.price + "лв." : "По договаряне";
+        <div class="card m-3 fourElementsInRow">
+            <div class="card-header">
+                <h3>@advertisement.bikeModel.bikeBrand.name @advertisement.bikeModel.name</h3>
+            </div>
+            <img class="card-i mg-top imageThumbnail" src="@photoPath" asp-append-version="true" />
+            <div>
+                <h4 class="ad-price">@price</h4>
+            </div>
+            <a asp-controller="advertisement" asp-action="view"
+               asp-route-id="@advertisement.id"
+               class="stretched-link"></a>
+        </div>
     }
-</body>
-</html>
+</div>
