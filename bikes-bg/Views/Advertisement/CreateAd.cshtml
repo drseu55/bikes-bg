@@ -7,68 +7,104 @@
 <h1>Create Advertisement</h1>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-5 ml-md-auto">
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                @Html.LabelFor(x => Model.selectedBikeBrand)
-                @Html.DropDownListFor(x => Model.selectedBikeBrand, new SelectList(Model.bikeBrands, "id", "name"), htmlAttributes: new { @class = "form-control", id = "Brands" })
-                @Html.ValidationMessageFor(x => x.selectedBikeBrand, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.selectedBikeBrand)
+                        @Html.DropDownListFor(x => Model.selectedBikeBrand, new SelectList(Model.bikeBrands, "id", "name"), htmlAttributes: new { @class = "form-control", id = "Brands" })
+                        @Html.ValidationMessageFor(x => x.selectedBikeBrand, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.selectedBikeModel)
+                        @Html.DropDownListFor(x => Model.selectedBikeModel, Enumerable.Empty<SelectListItem>(), htmlAttributes: new { @class = "form-control", @id = "Models" })
+                        @Html.ValidationMessageFor(x => x.selectedBikeModel, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(x => Model.selectedBikeModel)
-                @Html.DropDownListFor(x => Model.selectedBikeModel, Enumerable.Empty<SelectListItem>(), htmlAttributes: new { @class = "form-control", @id = "Models" })
-                @Html.ValidationMessageFor(x => x.selectedBikeModel, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.selectedBikeCategory)
+                        @Html.DropDownListFor(x => Model.selectedBikeCategory, new SelectList(Model.bikeCategories, "id", "name"), htmlAttributes: new { @class = "form-control", @id = "Categories" })
+                        @Html.ValidationMessageFor(x => x.selectedBikeCategory, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.selectedBikeEngineType)
+                        @Html.DropDownListFor(x => Model.selectedBikeEngineType, new SelectList(Model.bikeEngineTypes, "id", "name"), htmlAttributes: new { @class = "form-control", @id = "EngineTypes" })
+                        @Html.ValidationMessageFor(x => x.selectedBikeEngineType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(x => Model.selectedBikeCategory)
-                @Html.DropDownListFor(x => Model.selectedBikeCategory, new SelectList(Model.bikeCategories, "id", "name"), htmlAttributes: new { @class = "form-control", @id = "Categories" })
-                @Html.ValidationMessageFor(x => x.selectedBikeCategory, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="bikeEngineSize"></label>
+                        <input asp-for="bikeEngineSize" class="form-control" type="number" />
+                        <span asp-validation-for="bikeEngineSize" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="bikeHorsePower"></label>
+                        <input asp-for="bikeHorsePower" class="form-control" type="number" />
+                        <span asp-validation-for="bikeHorsePower" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(x => Model.selectedBikeEngineType)
-                @Html.DropDownListFor(x => Model.selectedBikeEngineType, new SelectList(Model.bikeEngineTypes, "id", "name"), htmlAttributes: new { @class = "form-control", @id = "EngineTypes" })
-                @Html.ValidationMessageFor(x => x.selectedBikeEngineType, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.selectedBikeColor)
+                        @Html.DropDownListFor(x => Model.selectedBikeColor, new SelectList(Model.bikeColors, "id", "name"), htmlAttributes: new { @class = "form-control", @id = "Colors" })
+                        @Html.ValidationMessageFor(x => x.selectedBikeColor, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.bikeYear, htmlAttributes: new { @class = "control-label col-md-10" })
+                        @Html.DropDownListFor(x => Model.bikeYear, Enumerable.Empty<SelectListItem>(), htmlAttributes: new { @class = "form-control", @id = "ProductionYears" })
+                        @Html.ValidationMessageFor(x => x.bikeYear, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="bikeEngineSize"></label>
-                <input asp-for="bikeEngineSize" class="form-control" type="number" />
-                <span asp-validation-for="bikeEngineSize" class="text-danger"></span>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.selectedRegion)
+                        @Html.DropDownListFor(x => Model.selectedRegion, new SelectList(Model.regions, "id", "name"), htmlAttributes: new { @class = "form-control", @id = "Regions" })
+                        @Html.ValidationMessageFor(x => x.selectedRegion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        @Html.LabelFor(x => Model.selectedCity)
+                        @Html.DropDownListFor(x => Model.selectedCity, Enumerable.Empty<SelectListItem>(), htmlAttributes: new { @class = "form-control", @id = "Cities" })
+                        @Html.ValidationMessageFor(x => x.selectedCity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="bikeHorsePower"></label>
-                <input asp-for="bikeHorsePower" class="form-control" type="number" />
-                <span asp-validation-for="bikeHorsePower" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => Model.selectedBikeColor)
-                @Html.DropDownListFor(x => Model.selectedBikeColor, new SelectList(Model.bikeColors, "id", "name"), htmlAttributes: new { @class = "form-control", @id = "Colors" })
-                @Html.ValidationMessageFor(x => x.selectedBikeColor, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => Model.bikeYear, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownListFor(x => Model.bikeYear, Enumerable.Empty<SelectListItem>(), htmlAttributes: new { @class = "form-control", @id = "ProductionYears" })
-                @Html.ValidationMessageFor(x => x.bikeYear, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => Model.selectedRegion)
-                @Html.DropDownListFor(x => Model.selectedRegion, new SelectList(Model.regions, "id", "name"), htmlAttributes: new { @class = "form-control", @id = "Regions" })
-                @Html.ValidationMessageFor(x => x.selectedRegion, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(x => Model.selectedCity)
-                @Html.DropDownListFor(x => Model.selectedCity, Enumerable.Empty<SelectListItem>(), htmlAttributes: new { @class = "form-control", @id = "Cities" })
-                @Html.ValidationMessageFor(x => x.selectedCity, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group">
-                <label asp-for="bikeMileage"></label>
-                <input asp-for="bikeMileage" class="form-control" type="number" />
-                <span asp-validation-for="bikeMileage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="description"></label>
-                <input asp-for="description" class="form-control" type="text" />
-                <span asp-validation-for="description" class="text-danger"></span>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="bikeMileage"></label>
+                        <input asp-for="bikeMileage" class="form-control" type="number" />
+                        <span asp-validation-for="bikeMileage" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="description"></label>
+                        <input asp-for="description" class="form-control" type="text" />
+                        <span asp-validation-for="description" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="bikePrice"></label>
@@ -84,6 +120,9 @@
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
+    </div>
+    <div class="col-md-3 ml-md-auto">
+
     </div>
 </div>
 
