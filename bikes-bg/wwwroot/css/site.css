@@ -4,3 +4,41 @@
     width: 40px;
     object-fit: scale-down;
 }
+
+.backgroundimage {
+    /*background-image: url("/images/background.jpg");*/
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/*.overlay {
+    background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0;
+    content: "";
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+}*/
+
+.avatarImage {
+    height: 100px;
+    width: 100px;
+    position: relative;
+    object-fit: scale-down;
+}
+
+.p-l {
+    padding-left: 10px !important;
+}
+
+.h6-align {
+    justify-content: center !important;
+}
+
+hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 0;
+    height: 1px;
+    background-color: black;
+}

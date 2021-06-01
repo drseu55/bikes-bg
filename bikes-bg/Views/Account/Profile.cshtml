@@ -1,0 +1,69 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<User> signInManager;
+@model User; 
+@{
+    ViewBag.Title = "User Profile";
+}
+
+@if (signInManager.IsSignedIn(User))
+{
+    <div class="card mt-5 border-5 pt-2 active pb-0 px-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-2">
+                    <div class="row">
+                        <a href="#"><img class="avatarImage" src="~/images/default-avatar.png" /></a>
+                    </div>
+                    <div class="row">
+                        <h6 class="p-l pt-2">@User.Identity.Name</h6>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="row h6-align">
+                        <h6>Information</h6>
+                    </div>
+                    <div class="row">
+                        <hr class="col-11"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label asp-for="@Model.Email"></label>
+                            <p>@Model.Email.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="firstName"></label>
+                            <input asp-for="firstName" type="text" class="form-control" value="@Model.firstName" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="lastName"></label>
+                            <input asp-for="lastName" type="text" class="form-control" value="@Model.lastName" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label asp-for="@Model.UserName"></label>
+                            <p>@Model.UserName</p>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="@Model.PhoneNumber"></label>
+                            <input asp-for="@Model.PhoneNumber" type="text" class="form-control" value="@Model.PhoneNumber" />
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                    </div>
+                    <div class="row justify-content-center pt-2">
+                        <input type="submit" class="btn btn-primary" value="Change"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-5 border-5 pt-2 active pb-0 px-3">
+        <div class="card-body">
+            <div class="row justify-content-center">
+                <h2>My Ads</h2>
+            </div>
+        </div>
+    </div>
+}

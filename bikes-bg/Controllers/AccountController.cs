@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using bikes_bg.Models;
+using bikes_bg.Repository.Base;
 using bikes_bg.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,12 +16,15 @@ namespace bikes_bg.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+        private IGenericRepository<User> userDetailsRepo;
 
         public AccountController(UserManager<User> userManager
-            , SignInManager<User> signInManager)
+            , SignInManager<User> signInManager
+            , IGenericRepository<User> userDetailsRepo)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.userDetailsRepo = userDetailsRepo;
         }
 
         [HttpGet]
@@ -83,6 +88,7 @@ namespace bikes_bg.Controllers
 
                 if (result.Succeeded)
                 {
+
                     if (!string.IsNullOrEmpty(returnUrl))
                     {
                         return LocalRedirect(returnUrl);
@@ -113,6 +119,20 @@ namespace bikes_bg.Controllers
             {
                 return Json($"Email {email} is already in use");
             }
+        }
+
+        [HttpGet]
+        public IActionResult Profile(string id)
+        {
+            var model = userDetailsRepo.GetById(id);
+
+            if (model == null)
+            {
+                Response.StatusCode = 404;
+                return RedirectToAction("index", "home");
+            }
+
+            return View(model);
         }
     }
 }
