@@ -1,0 +1,109 @@
+﻿@model Advertisement;
+
+@{
+    ViewBag.Title = "Delete Advertisement";
+}
+
+@{
+    //TODO: Change input fields to dropdownlist(start from position on advertisement id)
+    var photoPath = "~/images/" + (Model.photoPath ?? "noimage.jpg");
+    var bikePower = Model.engineSize + "cc " + Model.horsePower + "hp";
+
+    <div class="container emp-ad">
+        <form method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <div>
+                        <div class="ad-img">
+                            <img src="@photoPath" asp-append-version="true" />
+                            @*<label asp-for="photo"></label>
+                            <div class="custom-file">
+                                <input asp-for="photo" class="form-control custom-file-input">
+                                <label class="custom-file-label">Choose File...</label>
+                            </div>*@
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h5>Description:</h5>
+                        </div>
+                        <div>
+                            <textarea class="form-control" asp-for="@Model.description" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @*<div class="ad-head">*@
+                    <div>
+                        <h5>
+                            <label>Brand</label>
+                            <input type="text" asp-for="@Model.bikeModel.bikeBrand.name" class="form-control" value="@Model.bikeModel.bikeBrand.name" />
+                            <label>Model</label>
+                            <input type="text" asp-for="@Model.bikeModel.name" class="form-control" value="@Model.bikeModel.name" />
+                        </h5>
+                        <h6>
+                            <label>Power</label>
+                            <input type="text" asp-for="@bikePower" class="form-control" value="@bikePower" />
+                        </h6>
+                        <p class="ad-view-price">Price: </p>
+                        <input type="text" asp-for="@Model.price" class="form-control" value="@Model.price" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Category</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="@Model.bikeCategory.name" class="form-control" value="@Model.bikeCategory.name" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Production year</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="@Model.productionYear" class="form-control" value="@Model.productionYear" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Mileage</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="@Model.mileage" class="form-control" value="@Model.mileage" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>City</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="@Model.city.name" class="form-control" value="@Model.city.name" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Color</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" asp-for="@Model.bikeColor.name" class="form-control" value="@Model.bikeColor.name" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" asp-controller="account" asp-action="vieweditad" asp-route-id="@Model.id" class="btn btn-warning" value="Edit" />
+                </div>
+            </div>
+        </form>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+} 
