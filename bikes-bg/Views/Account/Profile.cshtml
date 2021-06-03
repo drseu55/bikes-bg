@@ -1,69 +1,112 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @inject SignInManager<User> signInManager;
-@model User; 
+@model ProfileViewModel;
 @{
     ViewBag.Title = "User Profile";
 }
 
-@if (signInManager.IsSignedIn(User))
-{
-    <div class="card mt-5 border-5 pt-2 active pb-0 px-3">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-2">
+@{
+    if (signInManager.IsSignedIn(User))
+    {
+        var photoPath = "~/images/profile/" + (Model.user.photoPath ?? "default-avatar.png");
+        <div class="card mt-5 border-5 pt-2 active pb-0 px-3">
+            <form method="post" enctype="multipart/form-data">
+                <div class="card-body">
                     <div class="row">
-                        <a href="#"><img class="avatarImage" src="~/images/default-avatar.png" /></a>
-                    </div>
-                    <div class="row">
-                        <h6 class="p-l pt-2">@User.Identity.Name</h6>
-                    </div>
-                </div>
-                <div class="col-10">
-                    <div class="row h6-align">
-                        <h6>Information</h6>
-                    </div>
-                    <div class="row">
-                        <hr class="col-11"/>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label asp-for="@Model.Email"></label>
-                            <p>@Model.Email.</p>
+                        <div class="col-2">
+                            <div class="row">
+                                <a><img class="avatarImage" src="@photoPath" asp-append-version="true" /></a>
+                            </div>
+                            <div class="row">
+                                <div class="custom-file">
+                                    <input asp-for="@Model.photo" class="form-control custom-file-input">
+                                    <label class="custom-file-label">Choose File...</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h6 class="p-l pt-2">@User.Identity.Name</h6>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <label asp-for="firstName"></label>
-                            <input asp-for="firstName" type="text" class="form-control" value="@Model.firstName" />
-                        </div>
-                        <div class="col-md-4">
-                            <label asp-for="lastName"></label>
-                            <input asp-for="lastName" type="text" class="form-control" value="@Model.lastName" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label asp-for="@Model.UserName"></label>
-                            <p>@Model.UserName</p>
-                        </div>
-                        <div class="col-md-4">
-                            <label asp-for="@Model.PhoneNumber"></label>
-                            <input asp-for="@Model.PhoneNumber" type="text" class="form-control" value="@Model.PhoneNumber" />
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-10">
+                            <div class="row h6-align">
+                                <h6>Information</h6>
+                            </div>
+                            <div class="row">
+                                <hr class="col-11" />
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label asp-for="@Model.user.Email"></label>
+                                    <p>@Model.user.Email</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="@Model.user.firstName"></label>
+                                    <input asp-for="@Model.user.firstName" type="text" class="form-control" value="@Model.user.firstName" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="@Model.user.lastName"></label>
+                                    <input asp-for="@Model.user.lastName" type="text" class="form-control" value="@Model.user.lastName" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label asp-for="@Model.user.UserName"></label>
+                                    <p>@Model.user.UserName</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="@Model.user.PhoneNumber"></label>
+                                    <input asp-for="@Model.user.PhoneNumber" type="text" class="form-control" value="@Model.user.PhoneNumber" />
+                                </div>
+                                <div class="col-md-4">
 
+                                </div>
+                            </div>
+                            <div class="row justify-content-center pt-2">
+                                <input asp-controller="account" asp-action="changeprofile" type="submit" class="btn btn-primary" value="Change" />
+                            </div>
                         </div>
                     </div>
-                    <div class="row justify-content-center pt-2">
-                        <input type="submit" class="btn btn-primary" value="Change"/>
-                    </div>
                 </div>
+            </form>
+        </div>
+        <div class="card mt-5 border-5 pt-2 active pb-0 px-3">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <h2>My Ads</h2>
+                </div>
+                <form method="post">
+                    @if (Model.advertisements != null)
+                    {
+                        @foreach (var advertisement in Model.advertisements)
+                        {
+                            <div class="row mb-2">
+                                <div class="col-md-3">
+                                    <h4>@advertisement.bikeModel.bikeBrand.name @advertisement.bikeModel.name</h4>
+                                </div>
+                                <div class="col-md-9">
+
+                                    <div class="row justify-content-end">
+                                        <input type="submit" asp-controller="account" asp-action="editad" asp-route-id="@advertisement.id" class="btn btn-warning mr-3" value="Edit" />
+                                        @*TODO: Add confirm delete pop-up/alert*@
+                                        <input type="submit" asp-controller="account" asp-action="deletead" asp-route-id="@advertisement.id" class="btn btn-danger" value="Delete"/>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </form>
             </div>
         </div>
-    </div>
-    <div class="card mt-5 border-5 pt-2 active pb-0 px-3">
-        <div class="card-body">
-            <div class="row justify-content-center">
-                <h2>My Ads</h2>
-            </div>
-        </div>
-    </div>
+    }
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
 }
