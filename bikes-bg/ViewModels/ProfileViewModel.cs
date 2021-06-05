@@ -1,4 +1,7 @@
-﻿using System;
+﻿using bikes_bg.Models;
+using bikes_bg.Repository.Base;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,16 +11,8 @@ namespace bikes_bg.ViewModels
 {
     public class ProfileViewModel
     {
-        [DisplayName("Email")]
-        public string Email { get; set; }
-
-        [DisplayName("First Name")]
-        public string selectedFirstName { get; set; }
-
-        [DisplayName("Last Name")]
-        public string selectedLastName { get; set; }
-
-        [DisplayName("Phone Number")]
-        public string selectedPhoneNumber { get; set; }
+        public User user { get; set; }
+        public IEnumerable<Advertisement> advertisements { get; set; }
+        public IFormFile photo { get; set; }
     }
 }

@@ -17,5 +17,8 @@ namespace bikes_bg.Models
         [Column("LAST_NAME")]
         [DisplayName("Last Name")]
         public string lastName { get; set; }
+        [Column("PHOTO_PATH")]
+        [DisplayName("Photo path")]
+        public string photoPath { get; set; }
     }
 }

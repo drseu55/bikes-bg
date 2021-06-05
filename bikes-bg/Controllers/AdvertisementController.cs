@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System;
+using bikes_bg.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace bikes_bg.Controllers
@@ -73,7 +74,7 @@ namespace bikes_bg.Controllers
             if (!ModelState.IsValid)
                 return View("CreateAd");
 
-            string uniqueFileName = ProcessUploadedFile(model);
+            string uniqueFileName = FileUpload.ProcessUploadedFile(model.photo, hostingEnvironment, "images");
 
             Advertisement advertisement = new Advertisement
             {
@@ -211,21 +212,6 @@ namespace bikes_bg.Controllers
             return Json(selectList);
         }
 
-        private string ProcessUploadedFile(CreateAdViewModel model)
-        {
-            string uniqueFileName = null;
-            if (model.photo != null)
-            {
-                string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.photo.FileName;
-                string filePath = Path.Combine(uploadFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    model.photo.CopyTo(fileStream);
-                }
-            }
-
-            return uniqueFileName;
-        }
+        
     }
 }
