@@ -1,4 +1,6 @@
 ﻿@model Advertisement;
+@using Microsoft.AspNetCore.Identity;
+@using System.Security.Claims;
 
 @{
     ViewBag.Title = "Create Advertisement";
@@ -14,7 +16,7 @@
                 <div class="col-md-4">
                     <div>
                         <div class="ad-img">
-                            <img src="@photoPath" asp-append-version="true"  />
+                            <img src="@photoPath" asp-append-version="true" />
                         </div>
                     </div>
                     <div>
@@ -78,10 +80,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    @*<input type="submit" class="ad-edit-btn" value="Edit Advertisement" />
-                        TODO add edit button*@
-                </div>
+                @{
+                    if (User.FindFirstValue(ClaimTypes.NameIdentifier).Equals(Model.userId))
+                    { 
+                        <div class="col-md-2">
+                            <input type="submit" asp-controller="account" asp-action="editad" asp-route-id="@Model.id" class="btn btn-warning" value="Edit" />
+                        </div>
+                    }
+                }
             </div>
         </form>
     </div>

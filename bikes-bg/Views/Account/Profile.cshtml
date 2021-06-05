@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity;
+@using System.Security.Claims;
 @inject SignInManager<User> signInManager;
 @model ProfileViewModel;
 @{
@@ -81,16 +82,21 @@
                         {
                             <div class="row mb-2">
                                 <div class="col-md-3">
+                                    <a asp-controller="advertisement" asp-action="view"
+                                    asp-route-id="@advertisement.id">
                                     <h4>@advertisement.bikeModel.bikeBrand.name @advertisement.bikeModel.name</h4>
+                                    </a>
                                 </div>
-                                <div class="col-md-9">
-
-                                    <div class="row justify-content-end">
-                                        <input type="submit" asp-controller="account" asp-action="editad" asp-route-id="@advertisement.id" class="btn btn-warning mr-3" value="Edit" />
-                                        @*TODO: Add confirm delete pop-up/alert*@
-                                        <input type="submit" asp-controller="account" asp-action="deletead" asp-route-id="@advertisement.id" class="btn btn-danger" value="Delete"/>
+                                @if (User.FindFirstValue(ClaimTypes.NameIdentifier).Equals(advertisement.userId))
+                                { 
+                                    <div class="col-md-9">
+                                        <div class="row justify-content-end">
+                                            <input type="submit" asp-controller="account" asp-action="editad" asp-route-id="@advertisement.id" class="btn btn-warning mr-3" value="Edit" />
+                                            @*TODO: Add confirm delete pop-up/alert*@
+                                            <input type="submit" asp-controller="account" asp-action="deletead" asp-route-id="@advertisement.id" class="btn btn-danger" value="Delete" />
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             </div>
                         }
                     }

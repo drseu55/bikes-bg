@@ -56,5 +56,7 @@ namespace bikes_bg.ViewModels
 
         [DisplayName("Photo")]
         public IFormFile photo { get; set; }
+
+        public string advertisementUserId { get; set; }
     }
 }

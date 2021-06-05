@@ -49,7 +49,7 @@ namespace bikes_bg.Controllers
             this.hostingEnvironment = hostingEnvironment;
         }
 
-    public ActionResult Index()
+        public ActionResult Index()
         {
             return View();
         }
@@ -73,7 +73,16 @@ namespace bikes_bg.Controllers
             if (!ModelState.IsValid)
                 return View("CreateAd");
 
-            string uniqueFileName = FileUpload.ProcessUploadedFile(model.photo, hostingEnvironment, "images");
+            string uniqueFileName;
+
+            if(model.photo != null)
+            { 
+                uniqueFileName = FileUpload.ProcessUploadedFile(model.photo, hostingEnvironment, "images");
+            }
+            else
+            {
+                uniqueFileName = "default-ad-image.png";
+            }
 
             Advertisement advertisement = new Advertisement
             {
@@ -129,7 +138,7 @@ namespace bikes_bg.Controllers
             {
                 Value = model.id.ToString(),
                 Text = model.name
-            }).ToList() ;
+            }).ToList();
 
             return Json(selectList);
         }
@@ -149,6 +158,82 @@ namespace bikes_bg.Controllers
             return Json(selectList);
         }
 
-        
+        [HttpGet]
+        public ActionResult ViewEditAd(int id)
+        {
+            var modelCreateAdViewModel = new CreateAdViewModel();
+
+            var modelAdvertisement = advertisementRepo.GetById(id);
+
+            if (!(User.FindFirstValue(ClaimTypes.NameIdentifier).Equals(modelAdvertisement.userId)))
+            {
+                Response.StatusCode = 403;
+                return View("~/Views/ErrorPages/Error403.cshtml");
+            }
+
+            modelAdvertisement.bikeModel = bikeModelRepo.GetById(modelAdvertisement.modelId);
+            modelAdvertisement.bikeModel.bikeBrand = bikeBrandRepo.GetById(modelAdvertisement.bikeModel.brandID);
+            modelAdvertisement.bikeCategory = bikeCategoryRepo.GetById(modelAdvertisement.categoryId);
+            modelAdvertisement.city = cityRepo.GetById(modelAdvertisement.cityId);
+            modelAdvertisement.bikeColor = bikeColorRepo.GetById(modelAdvertisement.colorId);
+
+            modelCreateAdViewModel.bikeBrands = bikeBrandRepo.GetAll().ToList();
+            modelCreateAdViewModel.bikeCategories = bikeCategoryRepo.GetAll().ToList();
+            modelCreateAdViewModel.bikeEngineTypes = bikeEngineTypeRepo.GetAll().ToList();
+            modelCreateAdViewModel.regions = regionRepo.GetAll().ToList();
+            modelCreateAdViewModel.bikeColors = bikeColorRepo.GetAll().ToList();
+
+            ViewBag.AdvertisementId = id;
+            ViewBag.StringImage = modelAdvertisement.photoPath;
+            modelCreateAdViewModel.advertisementUserId = modelAdvertisement.userId;
+            modelCreateAdViewModel.description = modelAdvertisement.description;
+            modelCreateAdViewModel.selectedBikeModel = modelAdvertisement.modelId;
+            modelCreateAdViewModel.selectedBikeBrand = modelAdvertisement.bikeModel.brandID;
+            modelCreateAdViewModel.bikeHorsePower = modelAdvertisement.horsePower;
+            modelCreateAdViewModel.selectedBikeEngineType = modelAdvertisement.engineTypeId;
+            modelCreateAdViewModel.bikeEngineSize = modelAdvertisement.engineSize;
+            modelCreateAdViewModel.bikePrice = modelAdvertisement.price;
+            modelCreateAdViewModel.selectedBikeCategory = modelAdvertisement.categoryId;
+            modelCreateAdViewModel.bikeYear = modelAdvertisement.productionYear;
+            modelCreateAdViewModel.bikeMileage = modelAdvertisement.mileage;
+            modelCreateAdViewModel.selectedRegion = modelAdvertisement.city.regionID;
+            modelCreateAdViewModel.selectedCity = modelAdvertisement.cityId;
+            modelCreateAdViewModel.selectedBikeColor = modelAdvertisement.colorId;
+
+            return View("EditAd", modelCreateAdViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult ViewEditAd(CreateAdViewModel model, int id)
+        {
+            if (!ModelState.IsValid)
+                return View("EditAd");
+
+            var advertisement = advertisementRepo.GetById(id);
+
+            string uniqueFileName;
+
+            if (model.photo != null)
+                uniqueFileName = FileUpload.ProcessUploadedFile(model.photo, hostingEnvironment, "images");
+            else
+                uniqueFileName = advertisement.photoPath;
+
+            advertisement.modelId = model.selectedBikeModel;
+            advertisement.horsePower = model.bikeHorsePower;
+            advertisement.engineSize = model.bikeEngineSize;
+            advertisement.engineTypeId = model.selectedBikeEngineType;
+            advertisement.productionYear = model.bikeYear;
+            advertisement.mileage = model.bikeMileage;
+            advertisement.price = model.bikePrice;
+            advertisement.cityId = model.selectedCity;
+            advertisement.colorId = model.selectedBikeColor;
+            advertisement.categoryId = model.selectedBikeCategory;
+            advertisement.description = model.description;
+            advertisement.photoPath = uniqueFileName;
+
+            advertisementRepo.Update(advertisement);
+
+            return RedirectToAction("view", new { id = advertisement.id });
+        }
     }
 }

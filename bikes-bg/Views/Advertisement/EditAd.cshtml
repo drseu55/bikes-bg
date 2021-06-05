@@ -1,100 +1,97 @@
-﻿@model Advertisement;
-
+﻿@model CreateAdViewModel;
+@using Microsoft.AspNetCore.Identity;
+@using System.Security.Claims;
 @{
-    ViewBag.Title = "Delete Advertisement";
+    ViewBag.Title = "Edit Advertisement";
 }
 
 @{
-    //TODO: Change input fields to dropdownlist(start from position on advertisement id)
-    var photoPath = "~/images/" + (Model.photoPath ?? "noimage.jpg");
-    var bikePower = Model.engineSize + "cc " + Model.horsePower + "hp";
+    if (User.FindFirstValue(ClaimTypes.NameIdentifier).Equals(Model.advertisementUserId))
+    {
+        var photoPath = "~/images/" + ViewBag.StringImage;
 
-    <div class="container emp-ad">
-        <form method="post">
-            <div class="row">
-                <div class="col-md-4">
-                    <div>
-                        <div class="ad-img">
-                            <img src="@photoPath" asp-append-version="true" />
-                            @*<label asp-for="photo"></label>
-                            <div class="custom-file">
-                                <input asp-for="photo" class="form-control custom-file-input">
+        <div class="container emp-ad">
+            <form method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div>
+                            <img class="editAdImage" src="@photoPath" asp-append-version="true" alt="imageerror" />
+                            <div class="custom-file mt-3">
+                                <input asp-for="@Model.photo" class="form-control custom-file-input">
                                 <label class="custom-file-label">Choose File...</label>
-                            </div>*@
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div>
+                                <h5>Description:</h5>
+                            </div>
+                            <div>
+                                <textarea class="form-control" asp-for="description" rows="3"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div>
+                    <div class="col-md-4 align-self-end">
+                        @*<div class="ad-head">*@
                         <div>
-                            <h5>Description:</h5>
+                            <div>
+                                @Html.LabelFor(x => Model.selectedBikeBrand)
+                                @Html.DropDownListFor(x => Model.selectedBikeBrand, new SelectList(Model.bikeBrands, "id", "name", Model.selectedBikeBrand), htmlAttributes: new { @class = "form-control", id = "Brands" })
+                                @Html.LabelFor(x => Model.selectedBikeModel)
+                                @Html.DropDownListFor(x => Model.selectedBikeModel, Enumerable.Empty<SelectListItem>(), htmlAttributes: new { @class = "form-control", @id = "Models" })
+                            </div>
+                            <div>
+                                <label>Horsepower</label>
+                                <input type="number" asp-for="@Model.bikeHorsePower" class="form-control" value="@Model.bikeHorsePower" />
+                            </div>
+                            <div>
+                                @Html.LabelFor(x => Model.selectedBikeEngineType)
+                                @Html.DropDownListFor(x => Model.selectedBikeEngineType, new SelectList(Model.bikeEngineTypes, "id", "name", Model.selectedBikeEngineType), htmlAttributes: new { @class = "form-control", @id = "EngineTypes" })
+                            </div>
+                            <div>
+                                <label asp-for="@Model.bikeEngineSize"></label>
+                                <input asp-for="@Model.bikeEngineSize" class="form-control" type="number" value="@Model.bikeEngineSize" />
+                            </div>
+                            <label>Price</label>
+                            <input type="number" asp-for="@Model.bikePrice" class="form-control" value="@Model.bikePrice" />
                         </div>
+                    </div>
+                    <div class="col-md-4 align-self-end">
                         <div>
-                            <textarea class="form-control" asp-for="@Model.description" rows="3"></textarea>
+                            <div>
+                                <label>Category</label>
+                                @Html.DropDownListFor(x => Model.selectedBikeCategory, new SelectList(Model.bikeCategories, "id", "name", Model.selectedBikeCategory), htmlAttributes: new { @class = "form-control", @id = "Categories" })
+                            </div>
+                            <div>
+                                <label>Production year</label>
+                                @Html.DropDownListFor(x => Model.bikeYear, Enumerable.Empty<SelectListItem>(), htmlAttributes: new { @class = "form-control", @id = "ProductionYears" })
+                            </div>
+                            <div>
+                                <label>Mileage</label>
+                                <input type="number" asp-for="@Model.bikeMileage" class="form-control" value="@Model.bikeMileage" />
+                            </div>
+                            <div>
+                                <label>Region</label>
+                                @Html.DropDownListFor(x => Model.selectedRegion, new SelectList(Model.regions, "id", "name", Model.selectedRegion), htmlAttributes: new { @class = "form-control", @id = "Regions" })
+                            </div>
+                            <div>
+                                <label>City</label>
+                                @Html.DropDownListFor(x => Model.selectedCity, Enumerable.Empty<SelectListItem>(), htmlAttributes: new { @class = "form-control", @id = "Cities" })
+                            </div>
+                            <div>
+                                <label>Color</label>
+                                @Html.DropDownListFor(x => Model.selectedBikeColor, new SelectList(Model.bikeColors, "id", "name", Model.selectedBikeColor), htmlAttributes: new { @class = "form-control", @id = "Colors" })
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    @*<div class="ad-head">*@
-                    <div>
-                        <h5>
-                            <label>Brand</label>
-                            <input type="text" asp-for="@Model.bikeModel.bikeBrand.name" class="form-control" value="@Model.bikeModel.bikeBrand.name" />
-                            <label>Model</label>
-                            <input type="text" asp-for="@Model.bikeModel.name" class="form-control" value="@Model.bikeModel.name" />
-                        </h5>
-                        <h6>
-                            <label>Power</label>
-                            <input type="text" asp-for="@bikePower" class="form-control" value="@bikePower" />
-                        </h6>
-                        <p class="ad-view-price">Price: </p>
-                        <input type="text" asp-for="@Model.price" class="form-control" value="@Model.price" />
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Category</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" asp-for="@Model.bikeCategory.name" class="form-control" value="@Model.bikeCategory.name" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Production year</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" asp-for="@Model.productionYear" class="form-control" value="@Model.productionYear" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Mileage</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" asp-for="@Model.mileage" class="form-control" value="@Model.mileage" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>City</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" asp-for="@Model.city.name" class="form-control" value="@Model.city.name" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Color</label>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" asp-for="@Model.bikeColor.name" class="form-control" value="@Model.bikeColor.name" />
-                        </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <input type="submit" asp-controller="advertisement" asp-action="vieweditad" asp-route-id="@ViewBag.AdvertisementId" class="btn btn-warning w-100" value="Edit" />
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <input type="submit" asp-controller="account" asp-action="vieweditad" asp-route-id="@Model.id" class="btn btn-warning" value="Edit" />
-                </div>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+    }
 }
 
 @section Scripts {
@@ -105,5 +102,81 @@
                 $(this).next('.custom-file-label').html(fileName);
             });
         });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Brands").change(function () {
+                var selectedBrand = $("#Brands").val();
+                $("#Models").empty();
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetModels")',
+                        dataType: 'json',
+                        data: { id: selectedBrand },
+                        success: function (mems) {
+                            $.each(mems, function (i, member) {
+                                console.log(member)
+                                $("#Models").append('<option value="'
+                                + member.value + '">'
+                                + member.text + '</option>');
+                            });
+                        },
+                        complete: function () {
+                            $("#Models").val(@Model.selectedBikeModel);
+                        },
+                        error: function (ex) {
+                            console.log("error")
+                            alert('Failed to retrieve models.' + ex);
+                        }
+                    });
+                    return false;
+            })
+        });
+
+            $(document).ready(function () {
+            $("#Regions").change(function () {
+                var selectedRegion = $("#Regions").val();
+                $("#Cities").empty();
+                $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetCities")',
+                        dataType: 'json',
+                        data: { id: selectedRegion },
+                        success: function (mems) {
+                            $.each(mems, function (i, member) {
+                                console.log(member)
+                                $("#Cities").append('<option value="'
+                                + member.value + '">'
+                                + member.text + '</option>');
+                            });
+                        },
+                        complete: function () {
+                            $("#Cities").val(@Model.selectedCity);
+                        },
+                        error: function (ex) {
+                            console.log("error")
+                            alert('Failed to retrieve models.' + ex);
+                        }
+                    });
+                    return false;
+            })
+        });
+
+        $(document).ready(function () {
+            let dateDropdown = document.getElementById('ProductionYears');
+            let currentYear = new Date().getFullYear();
+            let earliestYear = 1950;
+            while (currentYear >= earliestYear) {
+                let dateOption = document.createElement('option');
+                dateOption.text = currentYear;
+                dateOption.value = currentYear;
+                dateDropdown.add(dateOption);
+                currentYear -= 1;
+            }
+            $('#ProductionYears').val(@Model.bikeYear).change();
+            $("#Regions").val(@Model.selectedRegion).change();
+            $("#Brands").val(@Model.selectedBikeBrand).change();
+        });
+
     </script>
 } 

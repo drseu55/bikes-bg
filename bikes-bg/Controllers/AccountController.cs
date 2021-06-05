@@ -31,8 +31,6 @@ namespace bikes_bg.Controllers
         private IGenericRepository<Region> regionRepo;
         private IGenericRepository<City> cityRepo;
 
-        private IGenericRepository<CreateAdViewModel> createAdViewModelRepo;
-
         private IHostingEnvironment hostingEnvironment { get; }
 
         public AccountController(UserManager<User> userManager
@@ -46,8 +44,7 @@ namespace bikes_bg.Controllers
             , IGenericRepository<BikeEngineType> bikeEngineTypeRepo
             , IGenericRepository<BikeColor> bikeColorRepo
             , IGenericRepository<Region> regionRepo
-            , IGenericRepository<City> cityRepo
-            , IGenericRepository<CreateAdViewModel> createAdViewModelRepo)
+            , IGenericRepository<City> cityRepo)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -61,7 +58,6 @@ namespace bikes_bg.Controllers
             this.bikeColorRepo = bikeColorRepo;
             this.regionRepo = regionRepo;
             this.cityRepo = cityRepo;
-            this.createAdViewModelRepo = createAdViewModelRepo;
         }
 
         [HttpGet]
@@ -180,7 +176,7 @@ namespace bikes_bg.Controllers
                 return RedirectToAction("index", "home");
             }
 
-            if(model.advertisements == null)
+            if (model.advertisements == null)
             {
                 return View(model.user);
             }
@@ -191,7 +187,7 @@ namespace bikes_bg.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeProfile(ProfileViewModel profileViewModel)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = await userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -205,7 +201,7 @@ namespace bikes_bg.Controllers
 
                 var result = await userManager.UpdateAsync(user);
 
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     return RedirectToAction("profile", new { id = user.Id });
                 }
@@ -219,46 +215,19 @@ namespace bikes_bg.Controllers
         {
             if (!ModelState.IsValid)
                 return RedirectToAction("home", "index");
-
-            return RedirectToAction("ViewEditAd", new { id = id });
+            int resultId = id;
+            return RedirectToAction("vieweditad", "advertisement", new { id = resultId });
         }
 
         [HttpPost]
         public ActionResult DeleteAd(int id)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 advertisementRepo.Delete(id);
             }
 
-            return RedirectToAction("profile", new { id = User.FindFirstValue(ClaimTypes.NameIdentifier)});
+            return RedirectToAction("profile", new { id = User.FindFirstValue(ClaimTypes.NameIdentifier) });
         }
-
-        [HttpGet]
-        public ActionResult ViewEditAd(int id)
-        {
-            //var model = advertisementRepo.GetById(id);
-            //model.bikeModel = bikeModelRepo.GetById(model.modelId);
-            //model.bikeModel.bikeBrand = bikeBrandRepo.GetById(model.bikeModel.brandID);
-            //model.bikeCategory = bikeCategoryRepo.GetById(model.categoryId);
-            //model.city = cityRepo.GetById(model.cityId);
-            //model.bikeColor = bikeColorRepo.GetById(model.colorId);
-
-            var model = createAdViewModelRepo.GetById(id);
-
-            if (model == null)
-            {
-                Response.StatusCode = 404;
-                return RedirectToAction("index", "home");
-            }
-
-            return View("~/Views/Advertisement/EditAd.cshtml", model);
-        }
-
-        //[HttpPost]
-        //public ActionResult ViewEditAd(CreateAdViewModel)
-        //{
-
-        //}
     }
 }

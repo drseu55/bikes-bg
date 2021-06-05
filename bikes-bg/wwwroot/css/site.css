@@ -27,6 +27,11 @@
     object-fit: scale-down;
 }
 
+.editAdImage {
+    max-height: 100%;
+    width: 327.8px;
+}
+
 .p-l {
     padding-left: 10px !important;
 }
@@ -158,4 +163,8 @@ hr {
 .threeElementsInRow {
     min-width: 18rem;
     max-width: 30.5%;
+}
+
+.m-tCustom {
+    margin-top: 38px;
 }
