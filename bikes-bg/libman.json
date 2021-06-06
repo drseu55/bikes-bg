@@ -1,14 +1,19 @@
 {
-    "version": "1.0",
-    "defaultProvider": "cdnjs",
-    "libraries": [
-        {
-            "library": "twitter-bootstrap@4.6.0",
-            "destination": "wwwroot/lib/bootstrap/"
-        },
-        {
-            "library": "jquery@3.6.0",
-            "destination": "wwwroot/lib/jqeury/"
-        }
-    ]
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "twitter-bootstrap@4.6.0",
+      "destination": "wwwroot/lib/bootstrap/"
+    },
+    {
+      "library": "jquery@3.6.0",
+      "destination": "wwwroot/lib/jqeury/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "font-awesome-5-css@5.4.1",
+      "destination": "wwwroot/lib/fontawesome"
+    }
+  ]
 }

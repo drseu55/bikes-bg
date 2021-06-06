@@ -168,3 +168,23 @@ hr {
 .m-tCustom {
     margin-top: 38px;
 }
+
+
+/*Footer*/
+
+.footerText {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.faHover:hover {
+        color: #fff !important;
+}
+
+.footerLink {
+    font-weight: bold;
+}
+
+    .footerLink:hover {
+        color: #fff !important;
+        text-decoration: none;
+    }

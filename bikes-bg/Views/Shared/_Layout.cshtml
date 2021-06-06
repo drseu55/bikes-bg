@@ -8,6 +8,7 @@
 
     <environment include="Development">
         <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/lib/fontawesome/css/all.css" rel="stylesheet" />
         <script src="~/lib/jqeury/jquery.js"></script>
         <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     </environment>
@@ -55,7 +56,7 @@
                         <li class="nav-item">
                             <a asp-controller="account" asp-action="profile" asp-route-id="@userID" class="nav-link">Profile</a>
                         </li>
-                        
+
                         <li class="nav-item">
                             <a asp-controller="account" asp-action="logout" class="nav-link">Logout @User.Identity.Name</a>
                         </li>
@@ -76,6 +77,46 @@
         <div class="backgroundimage">
             @RenderBody()
         </div>
+        <footer class="text-center text-white" style="background-color: rgba(0, 0, 0, 0.5);">
+            <div class="container pt-2">
+                <section class="mb-1">
+                    <!-- Facebook -->
+                    <a class="btn btn-link btn-floating btn-lg footerText faHover m-1"
+                       href="#!"
+                       role="button"
+                       data-mdb-ripple-color="dark">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a class="btn btn-link btn-floating btn-lg footerText faHover m-1"
+                       href="#!"
+                       role="button"
+                       data-mdb-ripple-color="dark">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+
+                    <!-- Linkedin -->
+                    <a class="btn btn-link btn-floating btn-lg footerText faHover m-1"
+                       href="#!"
+                       role="button"
+                       data-mdb-ripple-color="dark">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <!-- Github -->
+                    <a class="btn btn-link btn-floating btn-lg footerText faHover m-1"
+                       href="#!"
+                       role="button"
+                       data-mdb-ripple-color="dark">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </section>
+            </div>
+            <div class="text-center footerText p-3" style="background-color: #343a40;">
+                © 2021 Copyright:
+                <a class="footerText footerLink" href="#">bikes-bg</a>
+            </div>
+        </footer>
         @RenderSection("Scripts", required: false)
     </div>
 </body>
