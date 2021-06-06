@@ -16,7 +16,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(x => Model.searchFilter.brandId)
-                @Html.DropDownListFor(x => Model.searchFilter.brandId, new SelectList(Model.searchFilter.bikeBrands, "id", "name"), htmlAttributes: new { @class = "form-control", id = "Brands" })
+                @Html.DropDownListFor(x => Model.searchFilter.brandId, new SelectList(Model.searchFilter.bikeBrands, "id", "name").Prepend(new SelectListItem("", "", true)), htmlAttributes: new { @class = "form-control", id = "Brands" })
                 @Html.ValidationMessageFor(x => x.searchFilter.brandId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -39,7 +39,7 @@
         <div class="col">
             <div class="form-group">
                 @Html.LabelFor(x => Model.searchFilter.regionId)
-                @Html.DropDownListFor(x => Model.searchFilter.regionId, new SelectList(Model.searchFilter.regions, "id", "name"), htmlAttributes: new { @class = "form-control", id = "Regions" })
+                @Html.DropDownListFor(x => Model.searchFilter.regionId, new SelectList(Model.searchFilter.regions, "id", "name").Prepend(new SelectListItem("", "", true)), htmlAttributes: new { @class = "form-control", id = "Regions" })
                 @Html.ValidationMessageFor(x => x.searchFilter.regionId, "", new { @class = "text-danger" })
             </div>
         </div>
