@@ -62,9 +62,12 @@
 
                                 </div>
                             </div>
-                            <div class="row justify-content-center pt-2">
-                                <input asp-controller="account" asp-action="changeprofile" type="submit" class="btn btn-primary" value="Change" />
-                            </div>
+                            @if (User.FindFirstValue(ClaimTypes.NameIdentifier).Equals(Model.user.Id))
+                            { 
+                                <div class="row justify-content-center pt-2">
+                                    <input asp-controller="account" asp-action="changeprofile" type="submit" class="btn btn-primary" value="Change" />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -82,7 +85,7 @@
                         {
                             <div class="row mb-2">
                                 <div class="col-md-3">
-                                    <a asp-controller="advertisement" asp-action="view"
+                                    <a class="profileLinks" asp-controller="advertisement" asp-action="view"
                                     asp-route-id="@advertisement.id">
                                     <h4>@advertisement.bikeModel.bikeBrand.name @advertisement.bikeModel.name</h4>
                                     </a>
