@@ -1,6 +1,7 @@
 ﻿@model Advertisement;
 @using Microsoft.AspNetCore.Identity;
 @using System.Security.Claims;
+@inject SignInManager<User> signInManager;
 
 @{
     ViewBag.Title = "Create Advertisement";
@@ -81,13 +82,16 @@
                     </div>
                 </div>
                 @{
-                    if (User.FindFirstValue(ClaimTypes.NameIdentifier).Equals(Model.userId))
-                    { 
+                    if (signInManager.IsSignedIn(User))
+                    {
+                        if (User.FindFirstValue(ClaimTypes.NameIdentifier).Equals(Model.userId))
+                        {
                         <div class="col-md-2">
                             <input type="submit" asp-controller="account" asp-action="editad" asp-route-id="@Model.id" class="btn btn-warning" value="Edit" />
                         </div>
+                            }
+                        }
                     }
-                }
             </div>
         </form>
     </div>
