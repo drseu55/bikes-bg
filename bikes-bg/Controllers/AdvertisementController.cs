@@ -71,15 +71,8 @@ namespace bikes_bg.Controllers
         [HttpPost]
         public ActionResult Create(CreateAdViewModel model)
         {
-            if (!ModelState.IsValid) 
-            {
-                model.bikeBrands = bikeBrandRepo.GetAll().ToList();
-                model.bikeCategories = bikeCategoryRepo.GetAll().ToList();
-                model.bikeEngineTypes = bikeEngineTypeRepo.GetAll().ToList();
-                model.regions = regionRepo.GetAll().ToList();
-                model.bikeColors = bikeColorRepo.GetAll().ToList();
-                return View("CreateAd", model);
-            }
+            if (!ModelState.IsValid)
+                return View("CreateAd");
 
             string uniqueFileName;
 

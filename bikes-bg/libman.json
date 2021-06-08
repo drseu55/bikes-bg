@@ -1,19 +1,28 @@
 {
   "version": "1.0",
   "defaultProvider": "cdnjs",
-  "libraries": [
-    {
-      "library": "twitter-bootstrap@4.6.0",
-      "destination": "wwwroot/lib/bootstrap/"
-    },
-    {
-      "library": "jquery@3.6.0",
-      "destination": "wwwroot/lib/jqeury/"
-    },
-    {
-      "provider": "unpkg",
-      "library": "font-awesome-5-css@5.4.1",
-      "destination": "wwwroot/lib/fontawesome"
-    }
-  ]
+    "libraries": [
+        {
+            "library": "twitter-bootstrap@4.6.0",
+            "destination": "wwwroot/lib/bootstrap/"
+        },
+        {
+            "library": "jquery@3.6.0",
+            "destination": "wwwroot/lib/jqeury/"
+        },
+        {
+            "provider": "unpkg",
+            "library": "font-awesome-5-css@5.4.1",
+            "destination": "wwwroot/lib/fontawesome"
+        },
+        {
+            "library": "jquery-validate@1.19.2",
+            "destination": "wwwroot/lib/jquery-validate/"
+        }
+    ,
+{
+  "library": "jquery-validation-unobtrusive@3.2.12",
+  "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
+}
+]
 }
