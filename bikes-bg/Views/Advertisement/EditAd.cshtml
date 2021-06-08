@@ -27,11 +27,11 @@
                             </div>
                             <div>
                                 <textarea class="form-control" asp-for="description" rows="3"></textarea>
+                                <span asp-validation-for="description" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4 align-self-end">
-                        @*<div class="ad-head">*@
                         <div>
                             <div>
                                 @Html.LabelFor(x => Model.selectedBikeBrand)
@@ -42,6 +42,7 @@
                             <div>
                                 <label>Horsepower</label>
                                 <input type="number" asp-for="@Model.bikeHorsePower" class="form-control" value="@Model.bikeHorsePower" />
+                                <span asp-validation-for="bikeHorsePower" class="text-danger"></span>
                             </div>
                             <div>
                                 @Html.LabelFor(x => Model.selectedBikeEngineType)
@@ -50,9 +51,11 @@
                             <div>
                                 <label asp-for="@Model.bikeEngineSize"></label>
                                 <input asp-for="@Model.bikeEngineSize" class="form-control" type="number" value="@Model.bikeEngineSize" />
+                                <span asp-validation-for="bikeEngineSize" class="text-danger"></span>
                             </div>
                             <label>Price</label>
                             <input type="number" asp-for="@Model.bikePrice" class="form-control" value="@Model.bikePrice" />
+                            <span asp-validation-for="bikePrice" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-4 align-self-end">
@@ -68,6 +71,7 @@
                             <div>
                                 <label>Mileage</label>
                                 <input type="number" asp-for="@Model.bikeMileage" class="form-control" value="@Model.bikeMileage" />
+                                <span asp-validation-for="bikeMileage" class="text-danger"></span>
                             </div>
                             <div>
                                 <label>Region</label>

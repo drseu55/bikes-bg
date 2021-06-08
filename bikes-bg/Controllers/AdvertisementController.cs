@@ -71,13 +71,20 @@ namespace bikes_bg.Controllers
         [HttpPost]
         public ActionResult Create(CreateAdViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View("CreateAd");
+            if (!ModelState.IsValid) 
+            {
+                model.bikeBrands = bikeBrandRepo.GetAll().ToList();
+                model.bikeCategories = bikeCategoryRepo.GetAll().ToList();
+                model.bikeEngineTypes = bikeEngineTypeRepo.GetAll().ToList();
+                model.regions = regionRepo.GetAll().ToList();
+                model.bikeColors = bikeColorRepo.GetAll().ToList();
+                return View("CreateAd", model);
+            }
 
             string uniqueFileName;
 
-            if(model.photo != null)
-            { 
+            if (model.photo != null)
+            {
                 uniqueFileName = FileUpload.ProcessUploadedFile(model.photo, hostingEnvironment, "images");
             }
             else
@@ -239,7 +246,9 @@ namespace bikes_bg.Controllers
         public ActionResult ViewEditAd(CreateAdViewModel model, int id)
         {
             if (!ModelState.IsValid)
+            {
                 return View("EditAd");
+            }
 
             var advertisement = advertisementRepo.GetById(id);
 
