@@ -14,21 +14,19 @@
             <form method="post" enctype="multipart/form-data">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-3">
                             <div class="row">
-                                <a><img class="avatarImage" src="@photoPath" asp-append-version="true" /></a>
-                            </div>
-                            <div class="row">
+                                <img class="avatarImage" src="@photoPath" asp-append-version="true"/>
                                 <div class="custom-file">
                                     <input asp-for="@Model.photo" class="form-control custom-file-input">
                                     <label class="custom-file-label">Choose File...</label>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="width: max-content">
                                 <h6 class="p-l pt-2">@User.Identity.Name</h6>
                             </div>
                         </div>
-                        <div class="col-10">
+                        <div class="col-9">
                             <div class="row h6-align">
                                 <h6>Information</h6>
                             </div>

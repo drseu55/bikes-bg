@@ -11,9 +11,9 @@
 }
 
 .avatarImage {
-    height: 100px;
-    width: 100px;
-    position: relative;
+    height: 200px;
+    width: max-content;
+    object-position: left;
     object-fit: scale-down;
 }
 
